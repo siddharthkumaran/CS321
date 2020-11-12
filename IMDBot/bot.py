@@ -73,8 +73,8 @@ def getusers():
     return users
 
 def getUserTweets(userId: int):
-    #Returns the user last 20 tweets in string.
-    tweets = api.user_timeline(userId)
+    #Returns the user last 50 tweets in string.
+    tweets = api.user_timeline(userId, count = 50)
     text=[]
     if len(tweets) > 0:
         for i in range(len(tweets)):
@@ -87,7 +87,7 @@ def getUserTweets(userId: int):
     return s_text
 
 def getListOfKeywordsFromTweets(user_tweets):
-    #Return a list of keywords from the user last 20 tweets.
+    #Return a list of keywords from the user last 50 tweets.
     result = keywords_Extract.apply(user_tweets)
     keywords = []
     if len(result) > 0:
@@ -112,7 +112,7 @@ def getMovieIdsFromKeywordId(Keyword_Id):
     if len(Keyword_Id) > 0:
         for k_id in Keyword_Id:
             #Note the list will contain only movie with average rating of 7 or higher and number of rating of 5 or higher.
-            kwargs = {'with_keywords' : k_id, 'vote_average.gte': 7, 'vote_count.gte' : 5 }
+            kwargs = {'with_keywords' : k_id, 'vote_average.gte': 7, 'vote_count.gte' : 5, 'include_video': True}
             movies = Discover.movie(**kwargs)
             if len(movies['results']) > 0:
                 for m_id in movies['results']:
@@ -125,7 +125,7 @@ def getMovieIdsFromKeywordIdAndGenreId(Keyword_Id, Genre_Id):
     if len(Keyword_Id) > 0:
         for k_id in Keyword_Id:
             #Note the list will contain only movie with average rating of 7 or higher and number of rating of 5 or higher.
-            kwargs = {'with_keywords' : k_id, 'vote_average.gte': 7, 'vote_count.gte' : 5, 'with_genres': Genre_Id}
+            kwargs = {'with_keywords' : k_id, 'vote_average.gte': 7, 'vote_count.gte' : 5, 'with_genres': Genre_Id, 'include_video': True}
             movies = Discover.movie(**kwargs)
             if len(movies['results']) > 0:
                 for m_id in movies['results']:
@@ -219,8 +219,8 @@ while(True):
             ment_tweet_id = mentions[i]     #The current mention id.
             user_id = getSingleUserId(ment_tweet_id)    #Grab the user id of the current mention id.
             ment_text = getSingleStatus(ment_tweet_id)  #Grab the text of the mention id.
-            user_tweets = getUserTweets(user_id)        #Grab the user of the mention id last 20 tweets.
-            user_keywords = getListOfKeywordsFromTweets(user_tweets)    #Compute the important keywords of the 20 tweets.
+            user_tweets = getUserTweets(user_id)        #Grab the user of the mention id last 50 tweets.
+            user_keywords = getListOfKeywordsFromTweets(user_tweets)    #Compute the important keywords of the 50 tweets.
             user_keyword_Id = keywordIdFromTweets(user_keywords)        #Grab keyword id of each keywords from the movie database.
             youtube_url = 'https://www.youtube.com/watch?v='            #Set up th url for trailer to reply with.
             if (('#help' in ment_text) or ('#instructions' in ment_text)) :     #Check if #help is in tweet.
@@ -238,8 +238,7 @@ while(True):
                 if(genre == -1):                                        #If that genre doesn't exist in the database, set flag to 1 and text_reply to appropriate message.  
                     flag = 1
                     text_reply = 'Unable to find the genre. Make sure you enter the correct genre. Use #genrelist to get the list of genre, or #help for help'
-                else:
-                    flag = 3                                            #Else set flag to 3 and grab the list of movie_id using that genre id and keyword_id list from user tweets.
+                else:                                                   #Else grab the list of movie_id using that genre id and keyword_id list from user tweets.
                     print('Printing movies from genre.\n')
                     movie_id_list = getMovieIdsFromKeywordIdAndGenreId(user_keyword_Id, genre_id) 
             elif '#similar' in ment_text:                               #If they use #similar in mentions
@@ -247,17 +246,15 @@ while(True):
                 title = re.sub('@botimd #similar[0-9]* ', '', title)    #Grab the title of movie from mention tweet.
                 movie_id = getMovieIdFromTitle(title)                   #Search and grab the movie id from the first of the search.
                 if(movie_id == -1):                                     #If the movie title doesnt exist in the database.
-                    flag = 2
-                    text_reply = 'Unable to find the title. Make sure you enter the correct title.\nUse #help for help.'   #Set flag to 2 and text_reply to appropriate message.
-                else:
-                    flag = 3                                            #Else set flag to 3 and grab a list of movie_id that is similar to the movie in the mention.
+                    flag = 1
+                    text_reply = 'Unable to find the title. Make sure you enter the correct title.\nUse #help for help.'   #Set text_reply to appropriate message.
+                else:                                                   #Else grab a list of movie_id that is similar to the movie in the mention.
                     movie_id_list = getSimilarMovieId(movie_id)      
-            else:
-                flag = 3                                                         #Else if only they only @BotImd with no other hashtag
+            else:                                                       #Else if only they only @BotImd with no other hashtag
                 movie_id_list = getMovieIdsFromKeywordId(user_keyword_Id)        #Grab the list of movie id using the keyword_id only.
             
-            if (flag == 1 or flag == 2) :                                        #The rest is just figure out which branch of reply to the mention tweet.
-                print('Printing error or genre list.\n')
+            if (flag == 1 ) :                                        #The rest is just figure out which branch of reply to the mention tweet.
+                print('Printing error.\n')
                 replyToTweet(text_reply, ment_tweet_id)
             elif (len(movie_id_list) == 0 and text_reply==''):
                 print('Printing couldnt find none.\n')
@@ -278,7 +275,7 @@ while(True):
                     text_reply = text_reply + '\n' + youtube_url
                     replyToTweet(text_reply, ment_tweet_id)
             print('Sleeping....')
-    time.sleep(30)
+    time.sleep(15)
 
 
 
