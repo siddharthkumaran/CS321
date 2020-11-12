@@ -111,9 +111,10 @@ def getMovieIdsFromKeywordId(Keyword_Id):
     result = []
     if len(Keyword_Id) > 0:
         for k_id in Keyword_Id:
-            #Note the list will contain only movie with average rating of 7 or higher and number of rating of 5 or higher.
-            kwargs = {'with_keywords' : k_id, 'vote_average.gte': 7, 'vote_count.gte' : 5, 'include_video': True}
+            #Note the list will contain only movie with average rating of 7 or higher and number of rating of 5 or higher, and will be sorted by rating.
+            kwargs = {'with_keywords' : k_id, 'vote_average.gte': 7, 'vote_count.gte' : 5, 'include_video': True, 'sort_by':'vote_average.dec'}
             movies = Discover.movie(**kwargs)
+            if (len(movies) > 200): movies=movies[0:200]     #get only top 200 movies if more than 200 were found.
             if len(movies['results']) > 0:
                 for m_id in movies['results']:
                     result.append(m_id['id'])
@@ -124,9 +125,10 @@ def getMovieIdsFromKeywordIdAndGenreId(Keyword_Id, Genre_Id):
     result = []
     if len(Keyword_Id) > 0:
         for k_id in Keyword_Id:
-            #Note the list will contain only movie with average rating of 7 or higher and number of rating of 5 or higher.
-            kwargs = {'with_keywords' : k_id, 'vote_average.gte': 7, 'vote_count.gte' : 5, 'with_genres': Genre_Id, 'include_video': True}
+            #Note the list will contain only movie with average rating of 7 or higher and number of rating of 5 or higher, and will be sorted by rating.
+            kwargs = {'with_keywords' : k_id, 'vote_average.gte': 7, 'vote_count.gte' : 5, 'with_genres': Genre_Id, 'include_video': True, 'sort_by':'vote_average.dec'}
             movies = Discover.movie(**kwargs)
+            if (len(movies) > 200): movies=movies[0:200]    #get only top 200 movies if more than 200 were found.
             if len(movies['results']) > 0:
                 for m_id in movies['results']:
                     result.append(m_id['id'])
@@ -204,6 +206,18 @@ def getYouTubeTrailer(movie):
             break
     return url
 
+#Randomly choose movie with trailer from list, gives up after 10 tries.
+def chooseMovie(list):
+    url=''
+    count=0
+    while(url=='' and count<10):
+        random_movie_id = random.choice(movie_id_list)
+        mov = tmdb.Movies(random_movie_id)
+        url=getYouTubeTrailer(mov)
+        count+=1
+
+    return mov
+
 # Main loop to keep the bot running.
 # All the print statements in here are for testing.
 while(True):
@@ -260,9 +274,8 @@ while(True):
                 print('Printing couldnt find none.\n')
                 text_reply = 'Sorry, unable to find a movie for you.\nUse #help for help.'
                 replyToTweet(text_reply, ment_tweet_id)
-            elif (text_reply==''):
-                random_movie_id = random.choice(movie_id_list)
-                mov = tmdb.Movies(random_movie_id)
+            elif (text_reply==''):           
+                mov=chooseMovie(movie_id_list)     #Randomly choose a movie from the list of movies that matched the user.
                 m_info = mov.info()
                 text_reply += mov.title + ' '
                 url_end = getYouTubeTrailer(mov)
@@ -275,7 +288,7 @@ while(True):
                     text_reply = text_reply + '\n' + youtube_url
                     replyToTweet(text_reply, ment_tweet_id)
             print('Sleeping....')
-    time.sleep(15)
+    time.sleep(20)
 
 
 
