@@ -289,7 +289,10 @@ while(True):
                 result = rated()
                 topmoviesid = result
                 print(topmoviesid)
+                count_r = 0
                 for movie in topmoviesid:
+                    if (count == 9):
+                        break
                     print(movie)
                     time.sleep(5)
                     url_end = ''
@@ -310,8 +313,8 @@ while(True):
                         youtube_url = youtube_url + url_end
                         text_reply = text_reply + '\n' + youtube_url
                         replyToTweet(text_reply, ment_tweet_id)
+                    count++
 
-                print('Sleeping....')
 
             else:                                                       #Else if only they only @BotImd with no other hashtag
                 movie_id_list = getMovieIdsFromKeywordId(user_keyword_Id)        #Grab the list of movie id using the keyword_id only.
