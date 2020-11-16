@@ -7,7 +7,6 @@ import random
 import re
 import requests
 
-
 #Movie data base api key.
 tmdb.API_KEY = '77a3f22cc7407bb2b409d69b58fc32ab'
 
@@ -218,13 +217,20 @@ def chooseMovie(list):
         count+=1
     return mov
 
-# popular
+# does an API calll to grab a trending movie
 def popular():
-    results = requests.get("https://api.themoviedb.org/3/trending/movie/week?api_key=77a3f22cc7407bb2b409d69b58fc32ab")
-    results = results.json()
-    print(results['results'][0]['id'])
-    movie_id = results['results'][0]['id']
+    results = requests.get("https://api.themoviedb.org/3/trending/movie/week?api_key=77a3f22cc7407bb2b409d69b58fc32ab") # the actual call to the database
+    results = results.json() # grabs the json
+    movie_id = results['results'][0]['id']  # grabs the movie_id
     return movie_id
+
+def rated():
+    movie_list = []
+    results = requests.get("https://api.themoviedb.org/3/movie/top_rated?api_key=77a3f22cc7407bb2b409d69b58fc32ab&language=en-US&page=1")
+    results = results.json()
+    for i in range(10)
+        movie_list.append(results['results'][i]['id'])
+    return movie_list
 
 # Main loop to keep the bot running.
 # All the print statements in here are for testing.
@@ -272,11 +278,31 @@ while(True):
                     text_reply = 'Unable to find the title. Make sure you enter the correct title.\nUse #help for help.'   #Set text_reply to appropriate message.
                 else:                                                   #Else grab a list of movie_id that is similar to the movie in the mention.
                     movie_id_list = getSimilarMovieId(movie_id)
-
-            elif '#popular' in ment_text:
+            elif '#popular' in ment_text:                               # if they want a popular trending movie for this week in the top 10
                 print("Looking for popular movie this week")
-                result = popular()
-                movie_id_list.append(result)
+                result = popular()                                      # call the popular movie
+                movie_id_list.append(result)                            # append it to the movie id list
+            elif '#rated' in ment_text:
+                print("Looking for top rated movies of all time")
+                result = rated()
+                movie_id_list = result
+                for movie in movie_id_list:
+                    mov=chooseMovie(movie)
+                    m_info = mov.info()
+                    text_reply += mov.title + ' '
+                    url_end = getYouTubeTrailer(mov)
+                    if (url_end == ''):
+                        print('Printing movie with no link.\n')
+                        replyToTweet(text_reply, ment_tweet_id)
+                    else:
+                        print('Printing movie with link.\n')
+                        youtube_url += url_end
+                        text_reply = text_reply + '\n' + youtube_url
+                        replyToTweet(text_reply, ment_tweet_id)
+
+                print('Sleeping....')
+
+
 
             else:                                                       #Else if only they only @BotImd with no other hashtag
                 movie_id_list = getMovieIdsFromKeywordId(user_keyword_Id)        #Grab the list of movie id using the keyword_id only.
