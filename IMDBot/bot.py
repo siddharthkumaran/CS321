@@ -287,10 +287,19 @@ while(True):
             elif '#rated' in ment_text:
                 print("Looking for top rated movies of all time")
                 result = rated()
-                movie_id_list = results
-                for movie in movie_id_list:
+                topmoviesid = result
+                print(topmoviesid)
+                for movie in topmoviesid:
+                    print(movie)
+                    time.sleep(5)
+                    url_end = ''
+                    text_reply = ''
+                    youtube_url = 'https://www.youtube.com/watch?v='
+                    movie_id_list = []
+                    movie_id_list.append(movie)
                     mov=chooseMovie(movie)
                     m_info = mov.info()
+                    print(mov.title)
                     text_reply = mov.title + ' '
                     url_end = getYouTubeTrailer(mov)
                     if (url_end == ''):
