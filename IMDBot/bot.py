@@ -292,6 +292,8 @@ while(True):
                 count_r = 0
                 for movie in topmoviesid:
                     if (count_r == 9):
+                        movie_id_list = []
+                        movie_id_list.append(movie)
                         break
                     print(movie)
                     time.sleep(5)
