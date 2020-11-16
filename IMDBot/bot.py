@@ -268,6 +268,7 @@ while(True):
                     movie_id_list = getSimilarMovieId(movie_id)
 
             elif '#popular' in ment_text:
+                print("looking for popular movie this week")
 
             else:                                                       #Else if only they only @BotImd with no other hashtag
                 movie_id_list = getMovieIdsFromKeywordId(user_keyword_Id)        #Grab the list of movie id using the keyword_id only.
