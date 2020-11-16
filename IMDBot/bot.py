@@ -291,7 +291,7 @@ while(True):
                 print(topmoviesid)
                 count_r = 0
                 for movie in topmoviesid:
-                    if (count == 9):
+                    if (count_r == 9):
                         break
                     print(movie)
                     time.sleep(5)
