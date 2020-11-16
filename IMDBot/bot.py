@@ -278,6 +278,7 @@ while(True):
                     text_reply = 'Unable to find the title. Make sure you enter the correct title.\nUse #help for help.'   #Set text_reply to appropriate message.
                 else:                                                   #Else grab a list of movie_id that is similar to the movie in the mention.
                     movie_id_list = getSimilarMovieId(movie_id)
+
             elif '#popular' in ment_text:                               # if they want a popular trending movie for this week in the top 10
                 print("Looking for popular movie this week")
                 result = popular()                                      # call the popular movie
@@ -288,8 +289,10 @@ while(True):
                 result = rated()
                 movie_id_list = result
                 for movie in movie_id_list:
+                    list = []
                     print(movie)
-                    mov=chooseMovie(movie)
+                    list.append(movie)
+                    mov=chooseMovie(list)
                     m_info = mov.info()
                     print(mov.title)
                     text_reply += mov.title + ' '
