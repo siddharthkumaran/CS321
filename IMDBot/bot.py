@@ -295,13 +295,15 @@ while(True):
                     if (url_end == ''):
                         print('Printing movie with no link.\n')
                         replyToTweet(text_reply, ment_tweet_id)
+                        url_end = ''
+                        text_reply = ''
                     else:
                         print('Printing movie with link.\n')
                         youtube_url += url_end
                         text_reply = text_reply + '\n' + youtube_url
                         replyToTweet(text_reply, ment_tweet_id)
                         url_end = ''
-                    text_reply = ''
+                        text_reply = ''
                 print('Sleeping....')
 
 
