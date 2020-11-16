@@ -6,7 +6,7 @@ import enchant
 import random
 import re
 
-#Sids test commit 
+#Sids test commit
 
 #Movie data base api key.
 tmdb.API_KEY = '77a3f22cc7407bb2b409d69b58fc32ab'
@@ -216,8 +216,11 @@ def chooseMovie(list):
         mov = tmdb.Movies(random_movie_id)
         url=getYouTubeTrailer(mov)
         count+=1
-
     return mov
+
+# popular
+def popular():
+    return 0
 
 # Main loop to keep the bot running.
 # All the print statements in here are for testing.
