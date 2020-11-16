@@ -6,6 +6,7 @@ import enchant
 import random
 import re
 
+#Sids test commit 
 
 #Movie data base api key.
 tmdb.API_KEY = '77a3f22cc7407bb2b409d69b58fc32ab'
@@ -103,7 +104,7 @@ def keywordIdFromTweets(user_keywords):
             key_id = Movie_Search.keyword(query = i)
             if len(key_id['results']) > 0:
                 for key in key_id['results']:
-                    result.append(key['id']) 
+                    result.append(key['id'])
     return result
 
 #Get list of movie id of movie using Keyword_id from user tweet.
@@ -174,7 +175,7 @@ def getInstructions():
 
 #Get movie id from title.
 def getMovieIdFromTitle(title):
-    movie_id = -1 
+    movie_id = -1
     res = Movie_Search.movie(query = title)
     res = res['results']
     if len(res) > 0:
@@ -246,15 +247,15 @@ while(True):
                 print('Printing genre list.\n')
                 replyToTweet(text_reply, ment_tweet_id)
             elif '#genre' in ment_text:                                 #If they use #genre in the mention.
-                genre = ment_text.lower()                               
+                genre = ment_text.lower()
                 genre = re.sub('@botimd #genre[0-9]* ', '', genre)
                 genre_id = getGenreId(genre)                            #Grab the genre id from the movie database.
-                if(genre == -1):                                        #If that genre doesn't exist in the database, set flag to 1 and text_reply to appropriate message.  
+                if(genre == -1):                                        #If that genre doesn't exist in the database, set flag to 1 and text_reply to appropriate message.
                     flag = 1
                     text_reply = 'Unable to find the genre. Make sure you enter the correct genre. Use #genrelist to get the list of genre, or #help for help'
                 else:                                                   #Else grab the list of movie_id using that genre id and keyword_id list from user tweets.
                     print('Printing movies from genre.\n')
-                    movie_id_list = getMovieIdsFromKeywordIdAndGenreId(user_keyword_Id, genre_id) 
+                    movie_id_list = getMovieIdsFromKeywordIdAndGenreId(user_keyword_Id, genre_id)
             elif '#similar' in ment_text:                               #If they use #similar in mentions
                 title = ment_text.lower()
                 title = re.sub('@botimd #similar[0-9]* ', '', title)    #Grab the title of movie from mention tweet.
@@ -263,10 +264,10 @@ while(True):
                     flag = 1
                     text_reply = 'Unable to find the title. Make sure you enter the correct title.\nUse #help for help.'   #Set text_reply to appropriate message.
                 else:                                                   #Else grab a list of movie_id that is similar to the movie in the mention.
-                    movie_id_list = getSimilarMovieId(movie_id)      
+                    movie_id_list = getSimilarMovieId(movie_id)
             else:                                                       #Else if only they only @BotImd with no other hashtag
                 movie_id_list = getMovieIdsFromKeywordId(user_keyword_Id)        #Grab the list of movie id using the keyword_id only.
-            
+
             if (flag == 1 ) :                                        #The rest is just figure out which branch of reply to the mention tweet.
                 print('Printing error.\n')
                 replyToTweet(text_reply, ment_tweet_id)
@@ -274,7 +275,7 @@ while(True):
                 print('Printing couldnt find none.\n')
                 text_reply = 'Sorry, unable to find a movie for you.\nUse #help for help.'
                 replyToTweet(text_reply, ment_tweet_id)
-            elif (text_reply==''):           
+            elif (text_reply==''):
                 mov=chooseMovie(movie_id_list)     #Randomly choose a movie from the list of movies that matched the user.
                 m_info = mov.info()
                 text_reply += mov.title + ' '
@@ -289,9 +290,3 @@ while(True):
                     replyToTweet(text_reply, ment_tweet_id)
             print('Sleeping....')
     time.sleep(20)
-
-
-
-
-
-
