@@ -175,10 +175,12 @@ def getGenreList():
 #Get instructions to use bot, couldn'tbe as detailed as I would've liked due to character limit in tweets, but this should be readable.
 def getInstructions():
     txt="""
-    1- Personalized Recommendation: @ botImd [anything]
-2- For movie from particular genre: @ botImd #genre [genre name]
-3- For similar movie: @ botImd #similar [movie title]
-4- For list of accepted genres: @ botImd #genrelist
+    1- Personalized Recommendation: @ botImd
+2- Genre Specific Recommendation: @ botImd #genre [genre name]
+3- Similar movie: @ botImd #similar [movie title]
+4- List of accepted genres: @ botImd #genrelist
+5- Top rated movie: @botImd #rated
+6- Weekly popular movie: @botImd #popular
     """
     return txt
 
