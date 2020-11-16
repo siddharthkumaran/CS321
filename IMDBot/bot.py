@@ -313,7 +313,7 @@ while(True):
                         youtube_url = youtube_url + url_end
                         text_reply = text_reply + '\n' + youtube_url
                         replyToTweet(text_reply, ment_tweet_id)
-                    count++
+                    count_r+=1
 
 
             else:                                                       #Else if only they only @BotImd with no other hashtag
