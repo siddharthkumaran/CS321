@@ -299,7 +299,7 @@ while(True):
                         youtube_url += url_end
                         text_reply = text_reply + '\n' + youtube_url
                         replyToTweet(text_reply, ment_tweet_id)
-
+                    text_reply = ''
                 print('Sleeping....')
 
 
