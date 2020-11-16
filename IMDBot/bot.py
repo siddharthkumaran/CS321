@@ -290,6 +290,7 @@ while(True):
                 for movie in movie_id_list:
                     mov=chooseMovie(movie)
                     m_info = mov.info()
+                    print(mov.title)
                     text_reply += mov.title + ' '
                     url_end = getYouTubeTrailer(mov)
                     if (url_end == ''):
