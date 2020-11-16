@@ -288,6 +288,7 @@ while(True):
                 result = rated()
                 movie_id_list = result
                 for movie in movie_id_list:
+                    print(movie)
                     mov=chooseMovie(movie)
                     m_info = mov.info()
                     print(mov.title)
