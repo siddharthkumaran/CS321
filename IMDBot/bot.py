@@ -288,15 +288,15 @@ while(True):
                 print("Looking for top rated movies of all time")
                 result = rated()
                 topmoviesid = result
-                print(topmoviesid)
+                #print(topmoviesid)
                 count_r = 0
                 for movie in topmoviesid:
-                    if (count_r == 9):
+                    if (count_r == 10):
                         movie_id_list = []
                         movie_id_list.append(movie)
                         break
-                    print(movie)
-                    time.sleep(5)
+                    #print(movie)
+                    #time.sleep(5)
                     url_end = ''
                     text_reply = ''
                     youtube_url = 'https://www.youtube.com/watch?v='
@@ -304,7 +304,7 @@ while(True):
                     movie_id_list.append(movie)
                     mov=chooseMovie(movie)
                     m_info = mov.info()
-                    print(mov.title)
+                    #print(mov.title)
                     text_reply = mov.title + ' '
                     url_end = getYouTubeTrailer(mov)
                     if (url_end == ''):
