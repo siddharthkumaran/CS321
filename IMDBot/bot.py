@@ -297,10 +297,10 @@ while(True):
                         replyToTweet(text_reply, ment_tweet_id)
                     else:
                         print('Printing movie with link.\n')
-                        youtube_url = ''
                         youtube_url += url_end
                         text_reply = text_reply + '\n' + youtube_url
                         replyToTweet(text_reply, ment_tweet_id)
+                        url_end = ''
                     text_reply = ''
                 print('Sleeping....')
 
