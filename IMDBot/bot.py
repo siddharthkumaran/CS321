@@ -223,7 +223,8 @@ def popular():
     results = requests.get("https://api.themoviedb.org/3/trending/movie/week?api_key=77a3f22cc7407bb2b409d69b58fc32ab")
     results = results.json()
     print(results['results'][0]['id'])
-    return results
+    movie_id = results['results'][0]['id']
+    return movie_id
 
 # Main loop to keep the bot running.
 # All the print statements in here are for testing.
@@ -274,7 +275,8 @@ while(True):
 
             elif '#popular' in ment_text:
                 print("Looking for popular movie this week")
-                results = popular()
+                result = popular()
+                movie_id_list.append(result)
 
             else:                                                       #Else if only they only @BotImd with no other hashtag
                 movie_id_list = getMovieIdsFromKeywordId(user_keyword_Id)        #Grab the list of movie id using the keyword_id only.
