@@ -229,9 +229,8 @@ def rated():
     results = requests.get("https://api.themoviedb.org/3/movie/top_rated?api_key=77a3f22cc7407bb2b409d69b58fc32ab&language=en-US&page=1")
     results = results.json()
     for i in range(10):
-        print(results['results'][i]['id'])
-        #movie_list.append()
-    return 0
+        movie_list.append(results['results'][i]['id'])
+    return movie_list
 
 # Main loop to keep the bot running.
 # All the print statements in here are for testing.
@@ -288,29 +287,21 @@ while(True):
             elif '#rated' in ment_text:
                 print("Looking for top rated movies of all time")
                 result = rated()
-                movie_id_list = []
+                movie_id_list = results
                 for movie in movie_id_list:
-                    list = []
-                    print(movie)
-                    list.append(movie)
-                    mov=chooseMovie(list)
+                    mov=chooseMovie(movie)
                     m_info = mov.info()
-                    print(mov.title)
-                    text_reply += mov.title + ' '
+                    text_reply = mov.title + ' '
                     url_end = getYouTubeTrailer(mov)
                     if (url_end == ''):
                         print('Printing movie with no link.\n')
                         replyToTweet(text_reply, ment_tweet_id)
-                        url_end = ''
-                        text_reply = ''
                     else:
                         print('Printing movie with link.\n')
-                        youtube_url += url_end
+                        youtube_url = youtube_url + url_end
                         text_reply = text_reply + '\n' + youtube_url
                         replyToTweet(text_reply, ment_tweet_id)
-                        url_end = ''
-                        text_reply = ''
-                    time.sleep(5)
+
                 print('Sleeping....')
 
             else:                                                       #Else if only they only @BotImd with no other hashtag
