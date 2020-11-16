@@ -305,6 +305,7 @@ while(True):
                         replyToTweet(text_reply, ment_tweet_id)
                         url_end = ''
                         text_reply = ''
+                    time.sleep(5)
                 print('Sleeping....')
 
 
