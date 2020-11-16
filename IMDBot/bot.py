@@ -282,6 +282,7 @@ while(True):
                 print("Looking for popular movie this week")
                 result = popular()                                      # call the popular movie
                 movie_id_list.append(result)                            # append it to the movie id list
+
             elif '#rated' in ment_text:
                 print("Looking for top rated movies of all time")
                 result = rated()
@@ -296,6 +297,7 @@ while(True):
                         replyToTweet(text_reply, ment_tweet_id)
                     else:
                         print('Printing movie with link.\n')
+                        youtube_url = ''
                         youtube_url += url_end
                         text_reply = text_reply + '\n' + youtube_url
                         replyToTweet(text_reply, ment_tweet_id)
