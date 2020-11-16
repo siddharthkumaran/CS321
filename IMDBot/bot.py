@@ -317,7 +317,6 @@ while(True):
                         replyToTweet(text_reply, ment_tweet_id)
                     count_r+=1
 
-
             else:                                                       #Else if only they only @BotImd with no other hashtag
                 movie_id_list = getMovieIdsFromKeywordId(user_keyword_Id)        #Grab the list of movie id using the keyword_id only.
 
