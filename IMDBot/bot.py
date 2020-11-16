@@ -228,7 +228,7 @@ def rated():
     movie_list = []
     results = requests.get("https://api.themoviedb.org/3/movie/top_rated?api_key=77a3f22cc7407bb2b409d69b58fc32ab&language=en-US&page=1")
     results = results.json()
-    for i in range(10)
+    for i in range(10):
         movie_list.append(results['results'][i]['id'])
     return movie_list
 
