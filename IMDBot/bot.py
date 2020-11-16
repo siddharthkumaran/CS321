@@ -221,7 +221,8 @@ def chooseMovie(list):
 # popular
 def popular():
     results = requests.get("https://api.themoviedb.org/3/trending/movie/week?api_key=77a3f22cc7407bb2b409d69b58fc32ab")
-    print(results.json())
+    for i in results:
+        print(i)
     return results
 
 # Main loop to keep the bot running.
