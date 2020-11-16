@@ -6,8 +6,6 @@ import enchant
 import random
 import re
 
-#Sids test commit
-
 #Movie data base api key.
 tmdb.API_KEY = '77a3f22cc7407bb2b409d69b58fc32ab'
 
@@ -242,7 +240,7 @@ while(True):
             user_keyword_Id = keywordIdFromTweets(user_keywords)        #Grab keyword id of each keywords from the movie database.
             youtube_url = 'https://www.youtube.com/watch?v='            #Set up th url for trailer to reply with.
             if (('#help' in ment_text) or ('#instructions' in ment_text)) :     #Check if #help is in tweet.
-                text_reply= getInstructions()                                   # if it is, set text_reply to instructions to use bot.
+                text_reply = getInstructions()                                   # if it is, set text_reply to instructions to use bot.
                 print('printing instructions.\n')
                 replyToTweet(text_reply, ment_tweet_id)
             elif '#genrelist' in ment_text:                               #Check to see if user used #genrelist in the mention tweet.
@@ -268,6 +266,9 @@ while(True):
                     text_reply = 'Unable to find the title. Make sure you enter the correct title.\nUse #help for help.'   #Set text_reply to appropriate message.
                 else:                                                   #Else grab a list of movie_id that is similar to the movie in the mention.
                     movie_id_list = getSimilarMovieId(movie_id)
+
+            elif '#popular' in ment_text:
+
             else:                                                       #Else if only they only @BotImd with no other hashtag
                 movie_id_list = getMovieIdsFromKeywordId(user_keyword_Id)        #Grab the list of movie id using the keyword_id only.
 
