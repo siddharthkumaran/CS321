@@ -229,8 +229,9 @@ def rated():
     results = requests.get("https://api.themoviedb.org/3/movie/top_rated?api_key=77a3f22cc7407bb2b409d69b58fc32ab&language=en-US&page=1")
     results = results.json()
     for i in range(10):
-        movie_list.append(results['results'][i]['id'])
-    return movie_list
+        print(results['results'][i]['id'])
+        #movie_list.append()
+    return 0
 
 # Main loop to keep the bot running.
 # All the print statements in here are for testing.
@@ -287,7 +288,7 @@ while(True):
             elif '#rated' in ment_text:
                 print("Looking for top rated movies of all time")
                 result = rated()
-                movie_id_list = result
+                movie_id_list = []
                 for movie in movie_id_list:
                     list = []
                     print(movie)
@@ -311,8 +312,6 @@ while(True):
                         text_reply = ''
                     time.sleep(5)
                 print('Sleeping....')
-
-
 
             else:                                                       #Else if only they only @BotImd with no other hashtag
                 movie_id_list = getMovieIdsFromKeywordId(user_keyword_Id)        #Grab the list of movie id using the keyword_id only.
