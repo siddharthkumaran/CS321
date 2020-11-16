@@ -218,7 +218,9 @@ def chooseMovie(list):
 
 # popular
 def popular():
-    return 0
+    response = response.get("https://api.themoviedb.org/3/trending/movie/week?api_key=77a3f22cc7407bb2b409d69b58fc32ab")
+    print(response)
+    return response
 
 # Main loop to keep the bot running.
 # All the print statements in here are for testing.
@@ -268,7 +270,8 @@ while(True):
                     movie_id_list = getSimilarMovieId(movie_id)
 
             elif '#popular' in ment_text:
-                print("looking for popular movie this week")
+                print("Looking for popular movie this week")
+                results = popular()
 
             else:                                                       #Else if only they only @BotImd with no other hashtag
                 movie_id_list = getMovieIdsFromKeywordId(user_keyword_Id)        #Grab the list of movie id using the keyword_id only.
