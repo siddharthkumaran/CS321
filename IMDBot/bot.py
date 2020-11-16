@@ -5,6 +5,8 @@ import time
 import enchant
 import random
 import re
+import requests
+
 
 #Movie data base api key.
 tmdb.API_KEY = '77a3f22cc7407bb2b409d69b58fc32ab'
@@ -218,9 +220,9 @@ def chooseMovie(list):
 
 # popular
 def popular():
-    response = response.get("https://api.themoviedb.org/3/trending/movie/week?api_key=77a3f22cc7407bb2b409d69b58fc32ab")
-    print(response)
-    return response
+    results = response.get("https://api.themoviedb.org/3/trending/movie/week?api_key=77a3f22cc7407bb2b409d69b58fc32ab")
+    print(results)
+    return results
 
 # Main loop to keep the bot running.
 # All the print statements in here are for testing.
